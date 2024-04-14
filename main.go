@@ -29,5 +29,12 @@ func main() {
 		}
 		w.WriteHeader(http.StatusOK)
 	})
-	http.ListenAndServe(":3003", nil)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3003"
+	}
+
+	fmt.Printf("Server running on port %s\n", port)
+	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 }
