@@ -18,14 +18,14 @@ func main() {
 		logfile = "requests.txt"
 	}
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		file, err := os.OpenFile(logfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-		if err != nil {
-			fmt.Println("Error opening file")
-			return
-		}
-		defer file.Close()
+	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+	if err != nil {
+		fmt.Println("Error opening file")
+		return
+	}
+	defer file.Close()
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		body, err := io.ReadAll(r.Body)
 		if err != nil {
 			fmt.Println("Error reading request body")
