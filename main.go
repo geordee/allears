@@ -8,6 +8,11 @@ import (
 )
 
 func main() {
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "3003"
+	}
+
 	logfile := os.Getenv("LOGFILE")
 	if logfile == "" {
 		logfile = "requests.txt"
@@ -34,11 +39,6 @@ func main() {
 		}
 		w.WriteHeader(http.StatusOK)
 	})
-
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3003"
-	}
 
 	fmt.Printf("Server running on port %s\n", port)
 	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
