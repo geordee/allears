@@ -8,8 +8,13 @@ import (
 )
 
 func main() {
+	logfile := os.Getenv("LOGFILE")
+	if logfile == "" {
+		logfile = "requests.txt"
+	}
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		file, err := os.OpenFile("requests.txt", os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
+		file, err := os.OpenFile(logfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
 		if err != nil {
 			fmt.Println("Error opening file")
 			return

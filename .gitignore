@@ -22,3 +22,6 @@ go.work
 
 # Build file
 allears
+
+# Default files
+requests.txt
