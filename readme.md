@@ -6,11 +6,12 @@ A simple stub to log HTTP requests and respond with OK.
 
 ```bash
 go get
-go build
+go run .
 ```
 
 ## Run
 
 ```bash
+go build
 PORT=3004 ./allears
 ```

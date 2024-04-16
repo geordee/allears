@@ -2,8 +2,10 @@ package main
 
 import (
 	"fmt"
-	"io"
+	"log"
+	"log/slog"
 	"net/http"
+	"net/http/httputil"
 	"os"
 )
 
@@ -13,30 +15,12 @@ func main() {
 		port = "3003"
 	}
 
-	logfile := os.Getenv("LOGFILE")
-	if logfile == "" {
-		logfile = "requests.txt"
-	}
-
-	file, err := os.OpenFile(logfile, os.O_CREATE|os.O_APPEND|os.O_WRONLY, 0644)
-	if err != nil {
-		fmt.Println("Error opening file")
-		return
-	}
-	defer file.Close()
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		body, err := io.ReadAll(r.Body)
+		dump, err := httputil.DumpRequest(r, true)
 		if err != nil {
-			fmt.Println("Error reading request body")
-			return
+			log.Fatal(err)
 		}
-
-		_, err = io.WriteString(file, fmt.Sprintf("\nMethod: %s, URL: %s\nBody: %s\n", r.Method, r.URL, string(body)))
-		if err != nil {
-			fmt.Println("Error writing to file")
-			return
-		}
+		slog.Info(fmt.Sprintf("\n%s\n---\n", string(dump)))
 		w.WriteHeader(http.StatusOK)
 	})
 
