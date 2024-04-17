@@ -14,4 +14,6 @@ go run .
 ```bash
 go build
 PORT=3004 ./allears
+# or
+PORT=3004 nohup ./allears >>log.txt 2>&1 &
 ```

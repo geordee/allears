@@ -24,6 +24,6 @@ func main() {
 		w.WriteHeader(http.StatusOK)
 	})
 
-	fmt.Printf("Server running on port %s\n", port)
+	slog.Info(fmt.Sprintf("Server running on port %s\n", port))
 	http.ListenAndServe(fmt.Sprintf(":%s", port), nil)
 }
